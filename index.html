@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coastal Property Investigation</title>
+    <style>
+        @font-face {
+    font-family: 'RixYeoljeongdo_Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/RixYeoljeongdo_Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url(divorce.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .scope-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .scope-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+        }
+        
+        .scope-circle {
+            width: 100%;
+            height: 100%;
+            border: 6px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            position: relative;
+            animation: rotate360 15s linear infinite;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .scope-crosshair-v {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 6px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(-50%);
+        }
+        
+        .scope-crosshair-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-50%);
+        }
+        
+        .aerial-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 450px;
+            border-radius: 0;
+            overflow: hidden;
+            clip-path: circle(350px at center);
+        }
+        
+        .aerial-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+        }
+        
+        .censored-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: black;
+            color: white;
+            padding: 10;
+            border: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'RixYeoljeongdo_Regular';
+            font-size: 80px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            z-index: 10;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            width: 600px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+        
+        .censored-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: url('eye1.gif');
+        }
+        
+        .censored-overlay:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+        
+        @media (max-width: 1024px) {
+            .scope-container {
+                width: 100vw;
+                height: 100vw;
+                max-width: 600px;
+                max-height: 600px;
+            }
+            
+            .aerial-image {
+                width: 85%;
+                height: 55%;
+                clip-path: circle(40% at center);
+            }
+            
+            .censored-overlay {
+                font-size: 36px;
+                width: 300px;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .scope-container {
+                width: 95vw;
+                height: 95vw;
+                max-width: 500px;
+                max-height: 500px;
+            }
+            
+            .censored-overlay {
+                font-size: 28px;
+                width: 250px;
+                height: 70px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="scope-overlay"></div>
+        
+        <div class="scope-container">
+            <div class="scope-circle">
+                <div class="scope-crosshair-v"></div>
+                <div class="scope-crosshair-h"></div>
+            </div>
+            
+            <div class="aerial-image">
+
+                <button class="censored-overlay" onclick="revealProperty()">
+                    CENSORED
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function revealProperty() {
+            const btn = document.querySelector('.censored-overlay');
+            btn.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
+                btn.style.transform = 'translate(-50%, -50%) scale(1)';
+                // 다른 사이트로 이동
+                window.open('https://ms-choi2057.github.io/finalterm3/', '_blank');
+            }, 100);
+        }
+        
+        // 마우스 움직임에 따른 약간의 패럴랙스 효과
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth - 1) * 6;
+            const mouseY = (e.clientY / window.innerHeight - 1) * 6;
+            
+            const scopeContainer = document.querySelector('.scope-container');
+            scopeContainer.style.transform = `translate(calc(-50% + ${mouseX * 10}px), calc(-50% + ${mouseY * 10}px))`;
+        });
+        
+        // 스코프 호버 시 회전 속도 변경
+        const scopeContainer = document.querySelector('.scope-container');
+        const scopeCircle = document.querySelector('.scope-circle');
+
+    </script>
+</body>
